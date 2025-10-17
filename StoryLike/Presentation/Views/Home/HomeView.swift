@@ -3,12 +3,17 @@ import SwiftUI
 struct HomeView: View {
     let viewModel: HomeViewModelProtocol
     
+    @State private var isPresented: Bool = false
+    
     var body: some View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     ForEach(viewModel.list) { userStoryViewData in
                         UserStoryComponent(viewData: userStoryViewData)
+                            .onTapGesture {
+                                isPresented = true
+                            }
                             .onAppear {
                                 if userStoryViewData.id == viewModel.list.last?.id {
                                     Task {
@@ -24,6 +29,9 @@ struct HomeView: View {
             Spacer()
         }
         .frame(maxHeight: .infinity)
+        .fullScreenCover(isPresented: $isPresented) {
+            UserStoriesView()
+        }
         .task {
             await viewModel.getNextUsers()
         }
