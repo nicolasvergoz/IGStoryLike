@@ -3,13 +3,19 @@ import SwiftUI
 struct HomeView: View {
     let viewModel: HomeViewModelProtocol
     
-    // TODO: Inifinite loop scrolling
     var body: some View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     ForEach(viewModel.list) { userStoryViewData in
                         UserStoryComponent(viewData: userStoryViewData)
+                            .onAppear {
+                                if userStoryViewData.id == viewModel.list.last?.id {
+                                    Task {
+                                        await viewModel.getNextUsers()
+                                    }
+                                }
+                            }
                     }
                 }
                 .padding(.horizontal)
