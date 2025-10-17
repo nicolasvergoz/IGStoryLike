@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    let viewModel: HomeViewModel
+    let viewModel: HomeViewModelProtocol
     
+    // TODO: Inifinite loop scrolling
     var body: some View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -17,20 +18,14 @@ struct HomeView: View {
             Spacer()
         }
         .frame(maxHeight: .infinity)
+        .task {
+            await viewModel.getNextUsers()
+        }
     }
 }
 
 #Preview {
     HomeView(
-        viewModel: HomeViewModel(
-            list: [
-                UserStoryComponentViewData(id: 1, username: "username_1", profilePicUrl: "https://i.pravatar.cc/300?u=1", unseenStory: true),
-                UserStoryComponentViewData(id: 2, username: "username_2", profilePicUrl: "https://i.pravatar.cc/300?u=2", unseenStory: false),
-                UserStoryComponentViewData(id: 3, username: "username_3", profilePicUrl: "https://i.pravatar.cc/300?u=3", unseenStory: true),
-                UserStoryComponentViewData(id: 4, username: "username_4", profilePicUrl: "https://i.pravatar.cc/300?u=4", unseenStory: true),
-                UserStoryComponentViewData(id: 5, username: "username_5", profilePicUrl: "https://i.pravatar.cc/300?u=5", unseenStory: true),
-                UserStoryComponentViewData(id: 6, username: "username_6", profilePicUrl: "https://i.pravatar.cc/300?u=6", unseenStory: true),
-            ]
-        )
+        viewModel: HomeViewModelFactory.makeViewModel()
     )
 }

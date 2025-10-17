@@ -1,7 +1,7 @@
 import Foundation
 
 protocol GetUsersUseCaseProtocol {
-    func execute(page: Int) async throws -> [UserEntity]
+    func execute() async throws -> [UserEntity]
 }
 
 class GetUsersUseCase: GetUsersUseCaseProtocol {
@@ -14,8 +14,8 @@ class GetUsersUseCase: GetUsersUseCaseProtocol {
         self.userRepository = userRepository
     }
     
-    func execute(page: Int) async throws -> [UserEntity] {
-        let newUsers = try await userRepository.fetchUsers(page: page)
+    func execute() async throws -> [UserEntity] {
+        let newUsers = try await userRepository.fetchUsers(page: nextPageIndex)
         users.append(contentsOf: newUsers)
         nextPageIndex += 1
         return users
