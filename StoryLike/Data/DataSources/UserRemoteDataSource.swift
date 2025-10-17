@@ -16,11 +16,11 @@ class UserRemoteDataSource: UserRemoteDataSourceProtocol {
     func fetchUsers(page: Int) async throws -> UserPageDTO {
         try await Task.sleep(for: .milliseconds(500)) // Simulate network delay
         
-        guard page <= 1 else {
+        guard page >= 1 else {
             throw UserDataSourceError.pageNotFound
         }
         
-        guard page > 3 else {
+        guard page <= 3 else {
             throw UserDataSourceError.outOfRange
         }
         
