@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct UserStoryComponentViewData {
-    let userId: Int
+struct UserStoryComponentViewData: Identifiable {
+    let id: Int
     let username: String
     let profilePicUrl: String
     let unseenStory: Bool
@@ -12,6 +12,7 @@ struct UserStoryComponent: View {
     private let size: CGFloat = 60
     private let strokeWidth: CGFloat = 3
     private let fontSize: CGFloat = 10
+    private let maxWidth: CGFloat = 74
     
     var body: some View {
         VStack {
@@ -45,13 +46,17 @@ struct UserStoryComponent: View {
             
             Text(viewData.username)
                 .font(.system(size: fontSize))
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
+        .frame(maxWidth: maxWidth)
     }
 }
 
 #Preview {
     HStack {
-        UserStoryComponent(viewData: UserStoryComponentViewData(userId: 1, username: "username_1", profilePicUrl: "https://i.pravatar.cc/300?u=1", unseenStory: true))
-        UserStoryComponent(viewData: UserStoryComponentViewData(userId: 2, username: "username_2", profilePicUrl: "https://i.pravatar.cc/300?u=2", unseenStory: false))
+        UserStoryComponent(viewData: UserStoryComponentViewData(id: 1, username: "username_1", profilePicUrl: "https://i.pravatar.cc/300?u=1", unseenStory: true))
+        UserStoryComponent(viewData: UserStoryComponentViewData(id: 2, username: "username_2", profilePicUrl: "https://i.pravatar.cc/300?u=2", unseenStory: false))
+        UserStoryComponent(viewData: UserStoryComponentViewData(id: 3, username: "username_2", profilePicUrl: "https://i.pravatar.cc/300?u=3", unseenStory: true))
     }
 }
