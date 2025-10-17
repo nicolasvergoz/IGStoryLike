@@ -15,9 +15,21 @@ class GetUsersUseCase: GetUsersUseCaseProtocol {
     }
     
     func execute() async throws -> [UserEntity] {
-        let newUsers = try await userRepository.fetchUsers(page: nextPageIndex)
-        users.append(contentsOf: newUsers)
-        nextPageIndex += 1
-        return users
+        do {
+            let newUsers = try await userRepository.fetchUsers(page: nextPageIndex)
+            users.append(contentsOf: newUsers)
+            nextPageIndex += 1
+            return users
+        } catch {
+            if case UserDataSourceError.outOfRange = error {
+                print("Reached end of pages, restarting from page 1...")
+                nextPageIndex = 1
+                let newUsers = try await userRepository.fetchUsers(page: nextPageIndex)
+                users.append(contentsOf: newUsers)
+                nextPageIndex += 1
+                return users
+            }
+            throw error
+        }
     }
 }
