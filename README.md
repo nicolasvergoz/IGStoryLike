@@ -1,15 +1,15 @@
 # IGStoryLike
 
-## Case Study - Test Technique
+## Case Study - Technical Test
 
-Reproduction de la feature **Stories d'Instagram** en iOS (SwiftUI).
+Instagram **Stories** feature recreation in iOS (SwiftUI).
 
-### Fonctionnalités
+### Features
 
-- Liste des utilisateurs avec leurs stories (lues/non lues)
-- Affichage des stories par utilisateur
-- Défilement infini avec pagination
-- Gradient Instagram signature
+- User list with their stories (read/unread)
+- Stories display by user
+- Infinite scroll with pagination
+- Instagram signature gradient
 
 ### Architecture
 
@@ -22,7 +22,7 @@ Reproduction de la feature **Stories d'Instagram** en iOS (SwiftUI).
 └── Mappers/         # DTOs ↔ Entities
 ```
 
-### Stack Technique
+### Tech Stack
 
 - SwiftUI
 - Async/Await
